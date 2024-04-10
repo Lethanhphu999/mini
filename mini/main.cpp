@@ -1,15 +1,29 @@
-#include <QApplication>
+﻿#include <QApplication>
 #include <QPushButton>
+#include <QVBoxLayout>
+#include <QMainWindow>
+#include <QMessageBox>
+#include <iostream>
 
-int main(int argc, char** argv)
-{
-    QApplication app(argc, argv);
+int main(int argc, char* argv[]) {
+    QApplication a(argc, argv);
 
-    QWidget window;
+    // Tạo một cửa sổ chính
+    QMainWindow* mainWindow = new QMainWindow();
+    QWidget* centralWidget = new QWidget(mainWindow);
+    mainWindow->setCentralWidget(centralWidget);
+    QVBoxLayout* layout = new QVBoxLayout(centralWidget);
 
-    QPushButton* button = new QPushButton("Hello World", &window);
-    button->setGeometry(10, 10, 80, 30);
+    // Thêm một nút vào cửa sổ chính
+    QPushButton* button = new QPushButton("Click Me!", centralWidget);
+    layout->addWidget(button);
 
-    window.show();
-    return app.exec();
+    // Khi nút được nhấn, hiển thị một thông báo
+    QObject::connect(button, &QPushButton::clicked, [&]() {
+        std::cout << "Vl" << std::endl;
+         QMessageBox::information(mainWindow, "Message", "Button clicked!");
+        });
+
+    mainWindow->show();
+    return a.exec();
 }
